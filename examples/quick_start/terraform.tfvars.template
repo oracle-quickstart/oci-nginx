@@ -1,0 +1,27 @@
+# OCI authentication
+tenancy_ocid = "<tenancy OCID>"
+user_ocid = "<user OCID>"
+fingerprint= "<PEM key fingerprint>"
+private_key_path = "<path to the private key that matches the fingerprint above>"
+
+# Region
+region = "<region in which to operate, example: us-ashburn-1, us-phoenix-1>"
+
+# Compartment
+compartment_ocid = "<compartment OCID>"
+
+# Instance Configration
+ssh_authorized_keys = "<path to public key>"
+ssh_private_key = "<path to private key>"
+server_shape="<the shape of nginx servers>"
+server_count="<the count of nginx servers>"
+http_port="<http port for nginx server>"
+
+## variables for load balance
+backendset_name="nginx_backend_set"
+hc_protocol="<healtch check protocol, example : HTTP>"
+backendset_policy="<policy for backendset, example : LEAST_CONNECTIONS>"
+hostnames="<list of the hostnames>"
+non_ssl_listener_name="<name of the non ssl listener>"
+non_ssl_listener_port="<port of the non ssl listener>"
+hostname_names="<list of the hostname names>"

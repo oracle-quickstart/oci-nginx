@@ -1,0 +1,15 @@
+module "nginx" {
+  source                      = "./modules/nginx-server"
+  compartment_ocid            = "${var.compartment_ocid}"
+  vcn_ocid                    = "${var.vcn_ocid}"
+  bastion_subnet              = "${var.bastion_subnet}"
+  bastion_shape               = "${var.bastion_shape}"
+  server_count                = "${var.server_count}"
+  server_subnet_ids           = "${var.server_subnet_ids}"
+  server_display_name         = "${var.server_display_name}"
+  server_shape                = "${var.server_shape}"
+  server_image_id             = "${var.server_image_id}"
+  server_http_port            = "${var.server_http_port}"
+  server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
+  server_ssh_private_key      = "${var.server_ssh_private_key}"
+}

@@ -1,0 +1,28 @@
+# OCI authentication
+tenancy_ocid = "<tenancy OCID>"
+user_ocid = "<user OCID>"
+fingerprint= "<PEM key fingerprint>"
+private_key_path = "<path to the private key that matches the fingerprint above>"
+
+# Region
+region = "<region in which to operate, example: us-ashburn-1, us-phoenix-1>"
+
+# Compartment
+compartment_ocid = "<compartment OCID>"
+
+
+# Bastion and Nginx server configuration
+vcn_ocid = "<vcn ocid>"
+bastion_subnet = "<bastion subnet ocid>"
+bastion_shape = "<bastion instance shape>"
+bastion_ssh_authorized_keys = "<path to public ssh key>"
+bastion_ssh_private_key = "<path to the private ssh key>"
+server_count = "<the count of the nginx servers>"
+server_subnet_ids = "<the list of the subnet ocids for server(s) to launch>"
+server_shape = "<nginx server instance(s) shape>"
+image_id = "<image ocid>"
+server_http_port = "<the http port for nginx server>"
+server_ssh_private_key = "<path to the private ssh key>"
+server_ssh_authorized_keys = "<path to public ssh key>"
+
+
