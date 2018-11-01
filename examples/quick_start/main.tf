@@ -172,6 +172,8 @@ module "nginx" {
   server_http_port            = "${var.http_port}"
   server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
   server_ssh_private_key      = "${var.server_ssh_private_key}"
+
+  bastion_host_display_name = "${var.bastion_host_display_name}"
 }
 
 module "load_balancer" {
@@ -192,7 +194,7 @@ module "load_balancer" {
   hc_response_body_regex          = "${var.hc_response_body_regex}"
   hc_url_path                     = "${var.hc_url_path}"
   backend_count                   = "${var.server_count}"
-  backend_ips                     = "${module.nginx.server_private_ips}"
+  backend_ips                     = "${module.nginx.private_ips}"
   backend_ports                   = ["${var.http_port}"]
   backup                          = "${var.backup}"
   drain                           = "${var.drain}"

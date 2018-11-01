@@ -7,7 +7,7 @@ The Oracle Cloud Infrastructure Nginx Terraform Module provides an easy way set 
 
 ## Prerequisites
 
-1. [Download and install Terraform](https://www.terraform.io/downloads.html) (v0.11.9 or later)
+1. [Download and install Terraform](https://www.terraform.io/downloads.html) (v0.11.8 or later)
 2. [Download and install the Oracle Cloud Infrastructure Terraform Provider](https://github.com/oracle/terraform-provider-oci) (v3.5.0 or later)
 
 ## How to Use the Module

@@ -61,3 +61,6 @@ variable "bastion_shape" {
   description = "Instance shape to use for bastion instance. "
   default     = "VM.Standard1.1"
 }
+
+
+variable "bastion_host_display_name" {}
