@@ -10,7 +10,7 @@ variable "compartment_ocid" {
 }
 
 variable "bastion_host_display_name" {
-  description = "The display name of the nginx server instance"
+  description = "The display name of the bastion host instance"
   default     = "bastion_host_for_nginx_server"
 }
 
@@ -61,7 +61,7 @@ variable "server_subnet_ids" {
 }
 
 variable "server_assign_public_ip" {
-  description = "Whether the VNIC should be assigned a public IP address"
+  description = "Whether the VNIC of nginx server should be assigned a public IP address"
   default     = false
 }
 

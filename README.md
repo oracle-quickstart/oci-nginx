@@ -36,18 +36,23 @@ module "nginx" {
 
 Argument | Description
 --- | ---
+server_http_port | The http port of the nginx server(s).
 compartment_id | Unique identifier (OCID) of the compartment in which to create the Nginx server(s).
+bastion_host_display_name | The display name of the bastion host instance.
+bastion_image_id | The Unique identifier (OCID) of the image which will be used to create the bastion host.
 vcn_ocid | Unique identifier (OCID) of the VCN in which to create the Nginx server(s).
 bastion_subnet | The Unique identifier (OCID) of the subnet which the bastion host will be created.
+bastion_ssh_authorized_keys | The path of public SSH key for the bastion host.
+bastion_ssh_private_key | The path of private SSH key to access bastion instance
 bastion_shape | The shape for the bastion host instance.
-server_count | The count of the nginx server(s) to be created.
-server_subnet_ids | The list of the Unique identifiers (OCIDs) of the subnet in which to create the nginx server(s).
-server_display_name | The display name of the nginx server(s)
-server_shape | The shape for the nginx server instance(s).
+server_display_name | The display name of the nginx server(s).
 server_image_id | The Unique identifier (OCID) of the image which will be used to create the nginx server(s).
-server_http_port | The http port of the nginx server(s).
-server_ssh_authorized_keys | The public SSH key for the nginx server(s).
-server_ssh_private_key | The private SSH key to access the nginx server(3)
+server_subnet_ids | The list of the Unique identifiers (OCIDs) of the subnet in which to create the nginx server(s).
+server_assign_public_ip | Whether the VNIC of the nginx server(s) should be assigned a public IP address.
+server_count | The count of the nginx server(s) to be created.
+server_shape | The shape for the nginx server instance(s).
+server_ssh_authorized_keys | The path of public SSH key for the nginx server(s).
+server_ssh_private_key | The path of private SSH key to access the nginx server(3)
 
 ## Contributing
 
