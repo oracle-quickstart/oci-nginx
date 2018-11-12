@@ -174,6 +174,9 @@ module "nginx" {
   server_ssh_private_key      = "${var.server_ssh_private_key}"
 
   bastion_host_display_name = "${var.bastion_host_display_name}"
+
+  ssl_cert_file_path     = "${var.ssl_cert_file_path}"
+  ssl_cert_key_file_path = "${var.ssl_cert_key_file_path}"
 }
 
 module "load_balancer" {

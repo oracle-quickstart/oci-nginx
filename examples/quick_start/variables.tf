@@ -64,3 +64,22 @@ variable "bastion_shape" {
 
 
 variable "bastion_host_display_name" {}
+
+variable "ssl_cert_file_path" {
+  description = "The path of the ssl cert file"
+}
+
+variable "ssl_cert_key_file_path" {
+  description = "The path of the ssl cert private key file"
+}
+
+
+variable "server_https_port" {
+  description = "The https port for the nginx server"
+  default     = 443
+}
+
+variable "folder_path_for_ssl_cert_files" {
+  description = "The folder path on nginx server which for saving the ssl cert files"
+  default     = "/etc/nginx/ssl_certs"
+}

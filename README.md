@@ -53,6 +53,10 @@ server_count | The count of the nginx server(s) to be created.
 server_shape | The shape for the nginx server instance(s).
 server_ssh_authorized_keys | The path of public SSH key for the nginx server(s).
 server_ssh_private_key | The path of private SSH key to access the nginx server(3)
+server_https_port | The https port for the nginx server
+folder_path_for_ssl_cert_files | The folder path on nginx server which for saving the ssl cert files
+ssl_cert_file_path | The path of the ssl cert file
+ssl_cert_key_file_path | The path of the ssl cert private key file
 
 ## Contributing
 

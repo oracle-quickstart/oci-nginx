@@ -1,8 +1,25 @@
 // Copyright (c) 2018, Oracle and/or its affiliatesAll rights reserved.
+variable "ssl_cert_file_path" {
+  description = "The path of the ssl cert file"
+}
+
+variable "ssl_cert_key_file_path" {
+  description = "The path of the ssl cert private key file"
+}
 
 variable "server_http_port" {
   description = "The http port for the nginx server"
   default     = 80
+}
+
+variable "server_https_port" {
+  description = "The https port for the nginx server"
+  default     = 443
+}
+
+variable "folder_path_for_ssl_cert_files" {
+  description = "The folder path on nginx server which for saving the ssl cert files"
+  default     = "/etc/pki/nginx"
 }
 
 variable "compartment_ocid" {
