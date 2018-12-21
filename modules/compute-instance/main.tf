@@ -36,7 +36,7 @@ resource "oci_core_instance" "this" {
   }
 
   metadata {
-    ssh_authorized_keys = "${file("${var.ssh_authorized_keys}")}"
+    ssh_authorized_keys = "${file(var.ssh_authorized_keys)}"
     user_data           = "${var.user_data}"
   }
 
