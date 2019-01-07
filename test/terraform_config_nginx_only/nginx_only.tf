@@ -3,7 +3,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_ocid" {}
+variable "compartment_id" {}
 variable "vcn_ocid" {}
 variable "bastion_subnet" {}
 variable "bastion_shape" {}
@@ -40,7 +40,7 @@ provider "oci" {
 
 module "nginx" {
   source                      = "../../"
-  compartment_ocid            = "${var.compartment_ocid}"
+  compartment_id              = "${var.compartment_id}"
   vcn_ocid                    = "${var.vcn_ocid}"
   bastion_subnet              = "${var.bastion_subnet}"
   bastion_shape               = "${var.bastion_shape}"

@@ -56,7 +56,7 @@ func iamTestFieldDataInputs(t *testing.T, server_count int, output_message strin
 	terraformOptions.Vars["bastion_subnet"] = bastion_subnet_ocid
 	terraformOptions.Vars["server_count"] = server_count
 
-	compartment_id := terraformOptions.Vars["compartment_ocid"].(string)
+	compartment_id := terraformOptions.Vars["compartment_id"].(string)
 
 	test_structure.RunTestStage(t, "init", func() {
 		fmt.Println("Starting test case...\n ")

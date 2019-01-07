@@ -8,7 +8,7 @@ private_key_path = "<path to the private key that matches the fingerprint above>
 region = "<region in which to operate, example: us-ashburn-1, us-phoenix-1>"
 
 # Compartment
-compartment_ocid = "<compartment OCID>"
+compartment_id = "<compartment OCID>"
 
 
 # Bastion and Nginx server configuration

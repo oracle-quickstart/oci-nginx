@@ -16,7 +16,7 @@ import (
 
 type Inputs struct {
 	Tenancy_ocid                string        `json:"tenancy_ocid"`
-	Compartment_ocid            string        `json:"compartment_ocid"`
+	compartment_id              string        `json:"compartment_id"`
 	User_ocid                   string        `json:"user_ocid"`
 	Region                      string        `json:"region"`
 	Fingerprint                 string        `json:"fingerprint"`
@@ -55,7 +55,7 @@ func ConfigureTerraformOptions(t *testing.T, terraformDir string, input_file_pat
 		TerraformDir: terraformDir,
 		Vars: map[string]interface{}{
 			"tenancy_ocid":                os.Getenv("TF_VAR_tenancy_ocid"),
-			"compartment_ocid":            os.Getenv("TF_VAR_compartment_ocid"),
+			"compartment_id":              os.Getenv("TF_VAR_compartment_id"),
 			"user_ocid":                   os.Getenv("TF_VAR_user_ocid"),
 			"region":                      os.Getenv("TF_VAR_region"),
 			"fingerprint":                 os.Getenv("TF_VAR_fingerprint"),

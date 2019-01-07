@@ -11,7 +11,7 @@ Set up the following environmental variables:
 
 - TF_VAR_tenancy_ocid=<tenancy OCID>
 - TF_VAR_server_ssh_authorized_keys=<path to the public key>
-- TF_VAR_compartment_ocid=<compartment OCID>
+- TF_VAR_compartment_id=<compartment OCID>
 - TF_VAR_region=<region in which to operate, example: us-ashburn-1, us-phoenix-1>
 - TF_VAR_fingerprint=<PEM key fingerprint>
 - TF_VAR_private_key_path=<path to the private key that matches the fingerprint above>

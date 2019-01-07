@@ -19,10 +19,21 @@ private_key_path = "~/.oci/oci_api_key.pem"
 region = "us-phoenix-1"
 
 # Compartment
-compartment_ocid = "ocid1.compartment.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+compartment_id = "ocid1.compartment.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # Instance Configration
-ssh_authorized_keys = "~/.ssh/id_rsa.pub"
+vcn_ocid = "<vcn ocid>"
+bastion_subnet = "<bastion subnet ocid>"
+bastion_shape = "<bastion instance shape>"
+bastion_ssh_authorized_keys = "<path to public ssh key>"
+bastion_ssh_private_key = "<path to the private ssh key>"
+server_count = "<the count of the nginx servers>"
+server_subnet_ids = "<the list of the subnet ocids for server(s) to launch>"
+server_shape = "<nginx server instance(s) shape>"
+image_id = "<image ocid>"
+server_http_port = "<the http port for nginx server>"
+server_ssh_private_key = "<path to the private ssh key>"
+server_ssh_authorized_keys = "<path to public ssh key>"
 ```
 
 Please also note that the self signed certificate generated in the example is for demo purposes only.

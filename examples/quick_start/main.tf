@@ -9,7 +9,7 @@ provider "oci" {
 }
 
 data "oci_identity_availability_domains" "ad" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
 }
 
 # Define local variables
@@ -30,7 +30,7 @@ locals {
 
 # Create a Virtual Cloud Network resource 
 resource "oci_core_vcn" "nginx" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   display_name   = "vcn_nginx"
   cidr_block     = "${var.vcn_cidr}"
   dns_label      = "tfnginx"
@@ -38,18 +38,18 @@ resource "oci_core_vcn" "nginx" {
 
 # Create a Internet Gateway resource 
 resource "oci_core_internet_gateway" "IGW_nginx" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   vcn_id         = "${oci_core_vcn.nginx.id}"
   display_name   = "IGW_nginx"
 }
 
 # Create a Route Table resource for the Virtual Cloud Network and configured with the created Internet Gateway 
 resource "oci_core_route_table" "routeTable_nginx_IGW" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   vcn_id         = "${oci_core_vcn.nginx.id}"
   display_name   = "routeTable_nginx"
 
-  route_rules = {
+  route_rules {
     destination       = "0.0.0.0/0"
     network_entity_id = "${oci_core_internet_gateway.IGW_nginx.id}"
   }
@@ -57,14 +57,14 @@ resource "oci_core_route_table" "routeTable_nginx_IGW" {
 
 # Create a NAT gateway when using the bastion to do the setup 
 resource "oci_core_nat_gateway" "NATGW_nginx" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   vcn_id         = "${oci_core_vcn.nginx.id}"
   display_name   = "NAT_GW_nginx"
 }
 
 # Create a Route Table resource for the Virtual Cloud Network and configured with the created NAT Gateway 
 resource "oci_core_route_table" "nginx_natgw" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   vcn_id         = "${oci_core_vcn.nginx.id}"
   display_name   = "routeTable_nginx_with_NATGW"
 
@@ -76,7 +76,7 @@ resource "oci_core_route_table" "nginx_natgw" {
 
 # Create a security list for ssh port
 resource "oci_core_security_list" "nginx_ssh" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   display_name   = "seclist_nginx_ssh"
   vcn_id         = "${oci_core_vcn.nginx.id}"
 
@@ -100,7 +100,7 @@ resource "oci_core_security_list" "nginx_ssh" {
 
 # Create a security list for http port
 resource "oci_core_security_list" "nginx_http" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   display_name   = "seclist_nginx_http"
   vcn_id         = "${oci_core_vcn.nginx.id}"
 
@@ -125,7 +125,7 @@ resource "oci_core_subnet" "nginx" {
   # every AD has a lb subnet, also need check the number of the nginx server counts
   count               = "${min(length(data.oci_identity_availability_domains.ad.availability_domains),var.server_count)}"
   availability_domain = "${lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")}"
-  compartment_id      = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_id}"
   display_name        = "nginx_subnet_ad${count.index}"
   cidr_block          = "${cidrsubnet(local.nginx_subnet_prefix, 4, count.index)}"
   security_list_ids   = ["${oci_core_security_list.nginx_http.id}", "${oci_core_security_list.nginx_ssh.id}"]
@@ -136,7 +136,7 @@ resource "oci_core_subnet" "nginx" {
 # Create the subnet for bastion host
 resource "oci_core_subnet" "bastion" {
   availability_domain = "${local.bs_availability_domain}"
-  compartment_id      = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_id}"
   display_name        = "bastion_subnet"
   cidr_block          = "${local.bs_subnet_prefix}"
   security_list_ids   = ["${oci_core_security_list.nginx_ssh.id}"]
@@ -148,7 +148,7 @@ resource "oci_core_subnet" "bastion" {
 resource "oci_core_subnet" "load_balance" {
   count               = 2
   availability_domain = "${lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")}"
-  compartment_id      = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_id}"
   display_name        = "load_balance_subnet-${count.index}"
   cidr_block          = "${cidrsubnet(local.lb_subnet_prefix, 4, count.index)}"
   security_list_ids   = ["${oci_core_security_list.nginx_http.id}"]
@@ -158,7 +158,7 @@ resource "oci_core_subnet" "load_balance" {
 
 module "nginx" {
   source                      = "../../"
-  compartment_ocid            = "${var.compartment_ocid}"
+  compartment_id              = "${var.compartment_id}"
   vcn_ocid                    = "${oci_core_vcn.nginx.id}"
   bastion_subnet              = "${element(oci_core_subnet.bastion.*.id, 0)}"
   bastion_shape               = "${var.bastion_shape}"
@@ -172,16 +172,14 @@ module "nginx" {
   server_http_port            = "${var.http_port}"
   server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
   server_ssh_private_key      = "${var.server_ssh_private_key}"
-
-  bastion_host_display_name = "${var.bastion_host_display_name}"
-
-  ssl_cert_file_path     = "${var.ssl_cert_file_path}"
-  ssl_cert_key_file_path = "${var.ssl_cert_key_file_path}"
+  bastion_host_display_name   = "${var.bastion_host_display_name}"
+  ssl_cert_file_path          = "${var.ssl_cert_file_path}"
+  ssl_cert_key_file_path      = "${var.ssl_cert_key_file_path}"
 }
 
 module "load_balancer" {
-  source                          = "git::ssh://git@bitbucket.oci.oraclecorp.com:7999/tfs/terraform-oci-load-balancer.git"
-  compartment_id                  = "${var.compartment_ocid}"
+  source                          = "./modules/load-balancer"
+  compartment_id                  = "${var.compartment_id}"
   display_name                    = "nginx_lb"
   shape                           = "${var.shape}"
   is_private                      = false

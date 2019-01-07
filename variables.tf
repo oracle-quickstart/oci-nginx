@@ -22,7 +22,7 @@ variable "folder_path_for_ssl_cert_files" {
   default     = "/etc/pki/nginx"
 }
 
-variable "compartment_ocid" {
+variable "compartment_id" {
   description = "Compartment's OCID where VCN will be created"
 }
 

@@ -3,7 +3,6 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_ocid" {}
 variable "server_ssh_authorized_keys" {}
 variable "server_ssh_private_key" {}
 
@@ -62,7 +61,6 @@ variable "bastion_shape" {
   default     = "VM.Standard1.1"
 }
 
-
 variable "bastion_host_display_name" {}
 
 variable "ssl_cert_file_path" {
@@ -72,7 +70,6 @@ variable "ssl_cert_file_path" {
 variable "ssl_cert_key_file_path" {
   description = "The path of the ssl cert private key file"
 }
-
 
 variable "server_https_port" {
   description = "The https port for the nginx server"

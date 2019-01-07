@@ -10,7 +10,7 @@ provider "oci" {
 
 module "nginx" {
   source                      = "../../"
-  compartment_ocid            = "${var.compartment_ocid}"
+  compartment_id              = "${var.compartment_id}"
   vcn_ocid                    = "${var.vcn_ocid}"
   bastion_subnet              = "${var.bastion_subnet}"
   bastion_shape               = "${var.bastion_shape}"
@@ -24,4 +24,7 @@ module "nginx" {
   server_http_port            = "${var.http_port}"
   server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
   server_ssh_private_key      = "${var.server_ssh_private_key}"
+  bastion_host_display_name   = "${var.bastion_host_display_name}"
+  ssl_cert_file_path          = "${var.ssl_cert_file_path}"
+  ssl_cert_key_file_path      = "${var.ssl_cert_key_file_path}"
 }

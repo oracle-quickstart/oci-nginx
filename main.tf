@@ -22,12 +22,9 @@ data "template_file" "install_nginx" {
 }
 
 # Create the bastion host
-#TODO replace the module source
 module "bastion_host" {
-  //  source  = "oracle-terraform-modules/compute-instance/oci"  //  version = "1.0.1"
-
   source                = "./modules/compute-instance"
-  compartment_ocid      = "${var.compartment_ocid}"
+  compartment_id        = "${var.compartment_id}"
   instance_display_name = "${var.bastion_host_display_name}"
   source_ocid           = "${coalesce(var.bastion_image_id, var.server_image_id)}"
   vcn_ocid              = "${var.vcn_ocid}"
@@ -39,12 +36,9 @@ module "bastion_host" {
 }
 
 # Create the nginx server host(s)
-#TODO replace the module source
 module "nginx_server" {
-  //  source  = "oracle-terraform-modules/compute-instance/oci"  //  version = "1.0.1"
-
   source                = "./modules/compute-instance"
-  compartment_ocid      = "${var.compartment_ocid}"
+  compartment_id        = "${var.compartment_id}"
   instance_display_name = "${var.server_display_name}"
   source_ocid           = "${var.server_image_id}"
   vcn_ocid              = "${var.vcn_ocid}"

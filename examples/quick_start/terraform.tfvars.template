@@ -8,17 +8,28 @@ private_key_path = "<path to the private key that matches the fingerprint above>
 region = "<region in which to operate, example: us-ashburn-1, us-phoenix-1>"
 
 # Compartment
-compartment_ocid = "<compartment OCID>"
+compartment_id = "<compartment OCID>"
 
 # Instance Configration
-ssh_authorized_keys = "<path to public key>"
-ssh_private_key = "<path to private key>"
+server_ssh_authorized_keys = "<path to public key>"
+server_ssh_private_key = "<path to private key>"
 server_shape="<the shape of nginx servers>"
 server_count="<the count of nginx servers>"
 http_port="<http port for nginx server>"
+bastion_host_display_name="<the name of bastion host>"
+ssl_cert_file_path="<the path of ssl cert file, if no keep it empty>"
+ssl_cert_key_file_path="<the path of ssl cert key file, if no keep it empty>"
 
 ## variables for load balance
-backendset_name="nginx_backend_set"
+backend_count="<the count of backend servers, same as server count>"
+backend_ips=[""]
+backend_ports=["<same as server ports>"]
+display_name="<The display name of the load balancer>"
+hc_port=<port for hc, same as server port>
+listener_protocol="<the listener protocol>"
+subnet_ids=[""]
+hc_url_path="/"
+backendset_name="<The display name of the backendset>"
 hc_protocol="<healtch check protocol, example : HTTP>"
 backendset_policy="<policy for backendset, example : LEAST_CONNECTIONS>"
 hostnames="<list of the hostnames>"

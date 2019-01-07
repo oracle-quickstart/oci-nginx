@@ -2,7 +2,7 @@ variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
-variable "compartment_ocid" {}
+variable "compartment_id" {}
 variable "region" {}
 
 variable "vcn_cidr" {
@@ -49,19 +49,19 @@ locals {
 
 resource "oci_core_virtual_network" "AutoNginxModuleTestVCN" {
   cidr_block     = "10.0.0.0/16"
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   display_name   = "AutoNginxModuleTestVCN"
   dns_label      = "actestvcn"
 }
 
 resource "oci_core_internet_gateway" "AutoNginxModuleTestIG" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   display_name   = "AutoNginxModuleTestIG"
   vcn_id         = "${oci_core_virtual_network.AutoNginxModuleTestVCN.id}"
 }
 
 resource "oci_core_route_table" "AutoNginxModuleTestRTwithIG" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   vcn_id         = "${oci_core_virtual_network.AutoNginxModuleTestVCN.id}"
   display_name   = "AutoNginxModuleTestRouteTableWithIG"
 
@@ -75,14 +75,14 @@ resource "oci_core_route_table" "AutoNginxModuleTestRTwithIG" {
 
 # Create a NAT gateway when using the bastion to do the setup 
 resource "oci_core_nat_gateway" "AutoNginxModuleTestNATGW" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   vcn_id         = "${oci_core_virtual_network.AutoNginxModuleTestVCN.id}"
   display_name   = "AutoNginxModuleTestNATGW"
 }
 
 # Create a Route Table resource for the Virtual Cloud Network and configured with the created NAT Gateway 
 resource "oci_core_route_table" "AutoNginxModuleTestRouteTableWithNATGW" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   vcn_id         = "${oci_core_virtual_network.AutoNginxModuleTestVCN.id}"
   display_name   = "AutoNginxModuleTestRouteTableWithNATGW"
 
@@ -94,7 +94,7 @@ resource "oci_core_route_table" "AutoNginxModuleTestRouteTableWithNATGW" {
 
 # Create a security list for ssh port
 resource "oci_core_security_list" "AutoNginxModuleTestSSHSeclist" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   display_name   = "AutoNginxModuleTestSSHSeclist"
   vcn_id         = "${oci_core_virtual_network.AutoNginxModuleTestVCN.id}"
 
@@ -118,7 +118,7 @@ resource "oci_core_security_list" "AutoNginxModuleTestSSHSeclist" {
 
 # Create a security list for http port
 resource "oci_core_security_list" "AutoNginxModuleTestHTTPSeclist" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   display_name   = "AutoNginxModuleTestHTTPSeclist"
   vcn_id         = "${oci_core_virtual_network.AutoNginxModuleTestVCN.id}"
 
@@ -138,13 +138,12 @@ resource "oci_core_security_list" "AutoNginxModuleTestHTTPSeclist" {
   }]
 }
 
-
 # Create Subnet resource 
 resource "oci_core_subnet" "AutoNginxModuleTestSubnetNginx" {
   # every AD has a lb subnet, also need check the number of the nginx server counts
   count               = "${max(length(data.oci_identity_availability_domains.ADs.availability_domains),var.server_count)}"
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[count.index], "name")}"
-  compartment_id      = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_id}"
   display_name        = "AutoNginxModuleTestSubnetNginx{count.index}"
   cidr_block          = "${cidrsubnet(local.nginx_subnet_prefix, 4, count.index)}"
   security_list_ids   = ["${oci_core_security_list.AutoNginxModuleTestHTTPSeclist.id}", "${oci_core_security_list.AutoNginxModuleTestSSHSeclist.id}"]
@@ -155,7 +154,7 @@ resource "oci_core_subnet" "AutoNginxModuleTestSubnetNginx" {
 # Create the subnet for bastion host
 resource "oci_core_subnet" "AutoNginxModuleTestSubnetBastion" {
   availability_domain = "${local.bs_availability_domain}"
-  compartment_id      = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_id}"
   display_name        = "AutoNginxModuleTestSubnetBastion"
   cidr_block          = "${local.bs_subnet_prefix}"
   security_list_ids   = ["${oci_core_security_list.AutoNginxModuleTestSSHSeclist.id}"]
@@ -167,7 +166,7 @@ resource "oci_core_subnet" "AutoNginxModuleTestSubnetBastion" {
 resource "oci_core_subnet" "AutoNginxModuleTestSubnetLB" {
   count               = 2
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[count.index], "name")}"
-  compartment_id      = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_id}"
   display_name        = "AutoNginxModuleTestSubnetLB-${count.index}"
   cidr_block          = "${cidrsubnet(local.lb_subnet_prefix, 4, count.index)}"
   security_list_ids   = ["${oci_core_security_list.AutoNginxModuleTestHTTPSeclist.id}"]
@@ -181,7 +180,7 @@ resource "oci_core_subnet" "AutoNginxModuleTestSubnetLB" {
 //  cidr_block          = "${cidrsubnet("10.0.0.0/16", 4, count.index)}"
 //  display_name        = "AutoNginxModuleTestSubnet-${count.index}"
 //  dns_label           = "actestsubnet${count.index}"
-//  compartment_id      = "${var.compartment_ocid}"
+//  compartment_id      = "${var.compartment_id}"
 //  vcn_id              = "${oci_core_virtual_network.AutoNginxModuleTestVCN.id}"
 //  security_list_ids   = ["${oci_core_virtual_network.AutoNginxModuleTestVCN.default_security_list_id}"]
 //  route_table_id      = "${oci_core_route_table.AutoNginxModuleTestRT.id}"

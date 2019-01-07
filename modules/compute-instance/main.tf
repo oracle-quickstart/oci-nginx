@@ -4,7 +4,7 @@
 # Subnet Datasource
 ####################
 data "oci_core_subnets" "this" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.compartment_id}"
   vcn_id         = "${var.vcn_ocid}"
 
   filter {
@@ -19,7 +19,7 @@ data "oci_core_subnets" "this" {
 resource "oci_core_instance" "this" {
   count                = "${var.instance_count}"
   availability_domain  = "${lookup(data.oci_core_subnets.this.subnets[count.index % length(data.oci_core_subnets.this.subnets)], "availability_domain")}"
-  compartment_id       = "${var.compartment_ocid}"
+  compartment_id       = "${var.compartment_id}"
   display_name         = "${var.instance_count != "1" ? "${var.instance_display_name}_${count.index + 1}" : "${var.instance_display_name}"}"
   extended_metadata    = "${var.extended_metadata}"
   ipxe_script          = "${var.ipxe_script}"
@@ -65,7 +65,7 @@ data "oci_core_instance_credentials" "this" {
 resource "oci_core_volume" "this" {
   count               = "${var.instance_count * length(var.block_storage_sizes_in_gbs)}"
   availability_domain = "${oci_core_instance.this.*.availability_domain[count.index % var.instance_count]}"
-  compartment_id      = "${var.compartment_ocid}"
+  compartment_id      = "${var.compartment_id}"
   display_name        = "this${count.index}"
   size_in_gbs         = "${element(var.block_storage_sizes_in_gbs, count.index % length(var.block_storage_sizes_in_gbs))}"
 }
@@ -76,7 +76,7 @@ resource "oci_core_volume" "this" {
 resource "oci_core_volume_attachment" "this" {
   count           = "${var.instance_count * length(var.block_storage_sizes_in_gbs)}"
   attachment_type = "${var.attachment_type}"
-  compartment_id  = "${var.compartment_ocid}"
+  compartment_id  = "${var.compartment_id}"
   instance_id     = "${oci_core_instance.this.*.id[count.index % var.instance_count]}"
   volume_id       = "${oci_core_volume.this.*.id[count.index]}"
   use_chap        = "${var.use_chap}"

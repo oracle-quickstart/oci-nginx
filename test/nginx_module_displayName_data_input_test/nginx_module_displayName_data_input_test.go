@@ -54,7 +54,7 @@ func iamTestFieldDataInputs(t *testing.T, display_name string, output_message st
 	terraformOptions.Vars["server_subnet_ids"] = server_subnet_ocid
 	terraformOptions.Vars["bastion_subnet"] = bastion_subnet_ocid
 
-	compartment_id := terraformOptions.Vars["compartment_ocid"].(string)
+	compartment_id := terraformOptions.Vars["compartment_id"].(string)
 	terraformOptions.Vars["server_display_name"] = display_name
 
 	test_structure.RunTestStage(t, "init", func() {

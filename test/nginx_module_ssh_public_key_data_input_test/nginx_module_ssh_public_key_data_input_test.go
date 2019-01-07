@@ -56,7 +56,7 @@ func iamTestFieldDataInputs(t *testing.T, ssh_public_key string, output_message 
 	terraformOptions.Vars["bastion_subnet"] = bastion_subnet_ocid
 	terraformOptions.Vars["server_ssh_authorized_keys"] = ssh_public_key
 
-	compartment_id := terraformOptions.Vars["compartment_ocid"].(string)
+	compartment_id := terraformOptions.Vars["compartment_id"].(string)
 
 	test_structure.RunTestStage(t, "init", func() {
 		fmt.Println("Starting test case...\n ")

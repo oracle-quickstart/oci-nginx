@@ -1,6 +1,6 @@
 // Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
 
-variable "compartment_ocid" {
+variable "compartment_id" {
   description = "Compartment's OCID where VCN will be created. "
 }
 

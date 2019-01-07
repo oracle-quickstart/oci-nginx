@@ -60,7 +60,7 @@ func serverPortDataInputs(t *testing.T, server_http_port string, output_message 
 	terraformOptions.Vars["bastion_subnet"] = bastion_subnet_ocid
 	terraformOptions.Vars["server_http_port"] = server_http_port
 
-	compartment_id := terraformOptions.Vars["compartment_ocid"].(string)
+	compartment_id := terraformOptions.Vars["compartment_id"].(string)
 
 	test_structure.RunTestStage(t, "init", func() {
 		fmt.Println("Starting test case...\n ")

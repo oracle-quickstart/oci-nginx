@@ -4,7 +4,7 @@ The Oracle Cloud Infrastructure Compute Instance Terraform Module provides an ea
 
 Please Note:
 
-* The subnet(s), the compute instances, and the block volumes all must be in the same compartment, as specified by the `compartment_ocid` parameter.
+* The subnet(s), the compute instances, and the block volumes all must be in the same compartment, as specified by the `compartment_id` parameter.
 * Oracle-provided images include rules that restrict access to the boot and block volumes. Oracle recommends that you do not use custom images without these rules unless you understand the security risks. See [Compute Best Practices](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bestpracticescompute.htm#two) for recommendations on how to manage instances.
 
 ## Prerequisites
@@ -19,9 +19,8 @@ The following code example creates an Oracle Cloud Infrastructure compute instan
 
 ```hcl
 module "instance" {
-  source = "../../"
-
-  compartment_ocid           = "${var.compartment_ocid}"
+  source                     = "../../"
+  compartment_id             = "${var.compartment_id}"
   instance_display_name      = "${var.instance_display_name}"
   source_ocid                = "${var.source_ocid}"
   vcn_ocid                   = "${var.vcn_ocid}"
@@ -35,7 +34,7 @@ module "instance" {
 
 Argument | Description
 --- | ---
-compartment_ocid | Unique identifier (OCID) of the compartment in which the VCN is created
+compartment_id | Unique identifier (OCID) of the compartment in which the VCN is created
 instance_display_name | Display name of the compute instance
 extended_metadata | Additional metadata key/value pairs provided by the user
 ipxe_script | The iPXE script which initiates the boot process on the compute instance

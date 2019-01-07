@@ -3,7 +3,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_ocid" {}
+variable "compartment_id" {}
 variable "vcn_ocid" {}
 //variable "bastion_subnet" {}
 //variable "bastion_shape" {}
@@ -34,7 +34,7 @@ variable "server_http_port" {}
 //
 //module "nginx" {
 //  source                      = "../../"
-//  compartment_ocid            = "${var.compartment_ocid}"
+//  compartment_id            = "${var.compartment_id}"
 //  vcn_ocid                    = "${var.vcn_ocid}"
 //  bastion_subnet              = "${var.bastion_subnet}"
 //  bastion_shape               = "${var.bastion_shape}"
@@ -184,7 +184,7 @@ variable "non_ssl_listener_path_route_set" {
 
 module "load_balancer" {
   source                          = "git::ssh://git@bitbucket.oci.oraclecorp.com:7999/tfs/terraform-oci-load-balancer.git"
-  compartment_id                  = "${var.compartment_ocid}"
+  compartment_id                  = "${var.compartment_id}"
   display_name                    = "nginx_lb"
   shape                           = "${var.lb_shape}"
   is_private                      = false
