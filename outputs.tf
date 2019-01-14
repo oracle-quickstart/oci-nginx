@@ -13,5 +13,9 @@ output "bastion_public_ip" {
 }
 
 output "server_http_port" {
-  value = "${coalesce(var.server_http_port, "80")}"
+  value = "${var.server_http_port}"
+}
+
+output "server_https_port" {
+  value = "${var.server_https_port}"
 }

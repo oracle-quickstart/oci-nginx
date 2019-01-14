@@ -9,12 +9,10 @@ variable "ssl_cert_key_file_path" {
 
 variable "server_http_port" {
   description = "The http port for the nginx server"
-  default     = 80
 }
 
 variable "server_https_port" {
   description = "The https port for the nginx server"
-  default     = 443
 }
 
 variable "folder_path_for_ssl_cert_files" {

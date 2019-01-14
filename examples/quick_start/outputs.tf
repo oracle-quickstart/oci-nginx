@@ -15,3 +15,11 @@ output "bastion_publicIP" {
 output "load_balance_endpoint" {
   value = "${module.load_balancer.ip_addresses}"
 }
+
+output "server_http_port" {
+  value = "${module.nginx.server_http_port}"
+}
+
+output "server_https_port" {
+  value = "${module.nginx.server_https_port}"
+}

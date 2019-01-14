@@ -44,7 +44,6 @@ variable "server_count" {
 
 variable "http_port" {
   description = "The nginx server http port"
-  default     = 80
 }
 
 variable "bastion_shape" {
@@ -76,7 +75,6 @@ variable "ssl_cert_key_file_path" {
 
 variable "server_https_port" {
   description = "The https port for the nginx server"
-  default     = 443
 }
 
 variable "folder_path_for_ssl_cert_files" {
