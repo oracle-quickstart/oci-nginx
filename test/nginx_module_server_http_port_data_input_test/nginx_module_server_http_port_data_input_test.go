@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"terraform-module-test-lib"
+	"../terraform-module-test-lib"
 	"testing"
 	"time"
 	"io/ioutil"
@@ -27,8 +27,8 @@ func TestServerHTTPPortInputData(t *testing.T) {
 	}{
 		{"server_http_port_empty", "", "Creation complete", true},
 		{"server_http_port_80", "80", "Creation complete", true},
-		//{"server_http_port_8080", "8080", "Creation complete", true},
-		//{"server_http_port_8088", "8088", "Creation complete", true},
+		{"server_http_port_8080", "8080", "Creation complete", true},
+		{"server_http_port_8088", "8088", "Creation complete", true},
 	}
 
 	// create dependent resources
@@ -82,13 +82,13 @@ func serverPortDataInputs(t *testing.T, server_http_port string, output_message 
 
 		if terraformOptions.Vars["server_count"].(int) <= 1 {
 			resource_name := "module.nginx.module.nginx_server.oci_core_instance.this"
-			display_name := test_helper.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
+			display_name := terraform_module_test_lib.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
 			nginx_module_common.FindInstanceInInstancesListRestAPI(t, display_name, verify_created, compartment_id)
 
 		} else {
 			for index := 0; index < terraformOptions.Vars["server_count"].(int); index++ {
 				resource_name := "module.nginx.module.nginx_server.oci_core_instance.this[" + strconv.Itoa(index) + "]"
-				display_name := test_helper.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
+				display_name := terraform_module_test_lib.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
 				nginx_module_common.FindInstanceInInstancesListRestAPI(t, display_name, verify_created, compartment_id)
 			}
 		}

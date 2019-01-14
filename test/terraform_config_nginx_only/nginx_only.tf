@@ -5,12 +5,14 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 variable "vcn_ocid" {}
-variable "bastion_subnet" {}
-variable "bastion_shape" {}
+variable "bastion_host_public_ip" {}
+variable "bastion_host_user" {}
 variable "bastion_ssh_authorized_keys" {}
 variable "bastion_ssh_private_key" {}
 variable "bastion_host_display_name" {}
 variable "bastion_image_id" {}
+variable "bastion_shape" {}
+variable "bastion_subnet" {}
 variable "server_count" {}
 
 variable "server_subnet_ids" {
@@ -38,15 +40,28 @@ provider "oci" {
   region           = "${var.region}"
 }
 
+# Create the bastion host
+module "bastion_host" {
+  source                = "./modules/compute-instance"
+  compartment_id        = "${var.compartment_id}"
+  instance_display_name = "${var.bastion_host_display_name}"
+  source_ocid           = "${coalesce(var.bastion_image_id, var.server_image_id)}"
+  vcn_ocid              = "${var.vcn_ocid}"
+  subnet_ocid           = "${list(var.bastion_subnet)}"
+  ssh_authorized_keys   = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
+  shape                 = "${coalesce(var.bastion_shape, var.server_shape)}"
+  assign_public_ip      = true
+  instance_count        = 1
+}
+
 module "nginx" {
   source                      = "../../"
   compartment_id              = "${var.compartment_id}"
   vcn_ocid                    = "${var.vcn_ocid}"
-  bastion_subnet              = "${var.bastion_subnet}"
-  bastion_shape               = "${var.bastion_shape}"
-  bastion_ssh_authorized_keys = "${var.bastion_ssh_authorized_keys}"
-  bastion_ssh_private_key     = "${var.bastion_ssh_private_key}"
-  bastion_host_display_name   = "${var.bastion_host_display_name}"
+  bastion_host_public_ip      = "${element(module.bastion_host.public_ip, 0)}"
+  bastion_host_user           = "${var.bastion_host_user}"
+  bastion_ssh_authorized_keys = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
+  bastion_ssh_private_key     = "${coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)}"
   server_count                = "${var.server_count}"
   server_subnet_ids           = "${var.server_subnet_ids}"
   server_display_name         = "${var.server_display_name}"

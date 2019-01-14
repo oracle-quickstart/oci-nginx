@@ -9,7 +9,7 @@ output "private_ips" {
 }
 
 output "bastion_public_ip" {
-  value = "${module.bastion_host.public_ip}"
+  value = "${var.bastion_host_public_ip}"
 }
 
 output "server_http_port" {

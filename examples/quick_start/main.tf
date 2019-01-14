@@ -50,7 +50,7 @@ resource "oci_core_route_table" "routeTable_nginx_IGW" {
   display_name   = "routeTable_nginx"
 
   route_rules {
-    destination       = "0.0.0.0/0"
+    destination       = "${local.anywhere}"
     network_entity_id = "${oci_core_internet_gateway.IGW_nginx.id}"
   }
 }
@@ -69,7 +69,7 @@ resource "oci_core_route_table" "nginx_natgw" {
   display_name   = "routeTable_nginx_with_NATGW"
 
   route_rules {
-    destination       = "0.0.0.0/0"
+    destination       = "${local.anywhere}"
     network_entity_id = "${oci_core_nat_gateway.NATGW_nginx.id}"
   }
 }
@@ -156,14 +156,28 @@ resource "oci_core_subnet" "load_balance" {
   route_table_id      = "${oci_core_route_table.routeTable_nginx_IGW.id}"
 }
 
+# Create the bastion host
+module "bastion_host" {
+  source                = "./modules/compute-instance"
+  compartment_id        = "${var.compartment_id}"
+  instance_display_name = "${var.bastion_host_display_name}"
+  source_ocid           = "${coalesce(var.bastion_image_id, var.image_id[var.region])}"
+  vcn_ocid              = "${oci_core_vcn.nginx.id}"
+  subnet_ocid           = "${list(element(oci_core_subnet.bastion.*.id, 0))}"
+  ssh_authorized_keys   = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
+  shape                 = "${coalesce(var.bastion_shape, var.server_shape)}"
+  assign_public_ip      = true
+  instance_count        = 1
+}
+
 module "nginx" {
   source                      = "../../"
   compartment_id              = "${var.compartment_id}"
   vcn_ocid                    = "${oci_core_vcn.nginx.id}"
-  bastion_subnet              = "${element(oci_core_subnet.bastion.*.id, 0)}"
-  bastion_shape               = "${var.bastion_shape}"
-  bastion_ssh_authorized_keys = "${var.bastion_ssh_authorized_keys}"
-  bastion_ssh_private_key     = "${var.bastion_ssh_private_key}"
+  bastion_host_public_ip      = "${element(module.bastion_host.public_ip, 0)}"
+  bastion_host_user           = "${var.bastion_host_user}"
+  bastion_ssh_authorized_keys = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
+  bastion_ssh_private_key     = "${coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)}"
   server_count                = "${var.server_count}"
   server_subnet_ids           = ["${oci_core_subnet.nginx.*.id}"]
   server_display_name         = "${var.server_display_name}"
@@ -172,7 +186,6 @@ module "nginx" {
   server_http_port            = "${var.http_port}"
   server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
   server_ssh_private_key      = "${var.server_ssh_private_key}"
-  bastion_host_display_name   = "${var.bastion_host_display_name}"
   ssl_cert_file_path          = "${var.ssl_cert_file_path}"
   ssl_cert_key_file_path      = "${var.ssl_cert_key_file_path}"
 }

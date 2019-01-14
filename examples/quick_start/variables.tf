@@ -6,13 +6,9 @@ variable "region" {}
 variable "server_ssh_authorized_keys" {}
 variable "server_ssh_private_key" {}
 
-variable "bastion_ssh_authorized_keys" {
-  default = ""
-}
+variable "bastion_ssh_authorized_keys" {}
 
-variable "bastion_ssh_private_key" {
-  default = ""
-}
+variable "bastion_ssh_private_key" {}
 
 variable "image_id" {
   type = "map"
@@ -34,7 +30,7 @@ variable "vcn_cidr" {
 }
 
 variable "server_shape" {
-  default = "VM.Standard1.1"
+  default = "VM.Standard2.1"
 }
 
 variable "server_display_name" {
@@ -51,17 +47,24 @@ variable "http_port" {
   default     = 80
 }
 
-variable "bastion_subnet" {
-  description = "The subnet for the bastion host"
-  default     = ""
-}
-
 variable "bastion_shape" {
   description = "Instance shape to use for bastion instance. "
-  default     = "VM.Standard1.1"
+  default     = "VM.Standard2.1"
 }
 
-variable "bastion_host_display_name" {}
+variable "bastion_image_id" {
+  default = ""
+}
+
+variable "bastion_host_display_name" {
+  description = "The name for bastion host"
+  default = "BastionHostForNginx"
+}
+
+variable "bastion_host_user" {
+  description = "The user name of bastion host"
+  default     = "opc"
+}
 
 variable "ssl_cert_file_path" {
   description = "The path of the ssl cert file"

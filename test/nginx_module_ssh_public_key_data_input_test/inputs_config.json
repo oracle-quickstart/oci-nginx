@@ -1,6 +1,6 @@
 {
-  "server_image_id": "ocid1.image.oc1.phx.aaaaaaaau6lzw2yispto74qeqduz4tnlmmjeoxdti7qgclz647snpdesdizq",
-  "server_shape": "VM.Standard1.1",
+  "server_image_id": "ocid1.image.oc1.phx.aaaaaaaaklifrcpkhjgszalaoitdshyxbxog3wm5ccol55m2apw3fg3mjndq",
+  "server_shape": "VM.Standard2.1",
   "server_display_name":"server_count_value_test",
   "server_count": 3,
   "Server_http_port": "80"

@@ -31,4 +31,6 @@ To launch the test cases from the specific folder, do the following:
 1. Navigate to "test" directory
 2. Run command: go test -v -timeout 60m ./<folder name>/
 
-#Example: go test -v -timeout 0m ./nginx_module_displayName_data_input_test/
+```bash
+#Example: go test -v -timeout 60m ./nginx_module_displayName_data_input_test/
+```

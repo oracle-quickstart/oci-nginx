@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"strconv"
 	"strings"
-	"terraform-module-test-lib"
+	"../terraform-module-test-lib"
 	"testing"
 )
 
@@ -77,12 +77,12 @@ func iamTestFieldDataInputs(t *testing.T, server_count int, output_message strin
 
 		if terraformOptions.Vars["server_count"].(int) <= 1 {
 			resource_name := "module.nginx.module.nginx_server.oci_core_instance.this"
-			display_name := test_helper.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
+			display_name := terraform_module_test_lib.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
 			nginx_module_common.FindInstanceInInstancesListRestAPI(t, display_name, verify_created, compartment_id)
 		} else {
 			for index := 0; index < terraformOptions.Vars["server_count"].(int); index++ {
 				resource_name := "module.nginx.module.nginx_server.oci_core_instance.this[" + strconv.Itoa(index) + "]"
-				display_name := test_helper.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
+				display_name := terraform_module_test_lib.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
 				nginx_module_common.FindInstanceInInstancesListRestAPI(t, display_name, verify_created, compartment_id)
 			}
 		}

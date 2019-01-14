@@ -2,6 +2,7 @@ package test
 
 import (
 	"../nginx_module_common"
+	"../terraform-module-test-lib"
 	"fmt"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -10,13 +11,17 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"terraform-module-test-lib"
 	"testing"
 )
 
 var inputs_config_file_path = "inputs_config.json"
 
 func TestSSHPublicKeyPathInputData(t *testing.T) {
+
+	// create dependent resources
+	terraformDependenciesDir := "../dependencies"
+	terraform_dependencies_options := nginx_module_common.ConfigureTerraformOptions(t, terraformDependenciesDir, inputs_config_file_path)
+
 	testCases := []struct {
 		tc_name        string
 		ssh_public_key string
@@ -27,10 +32,6 @@ func TestSSHPublicKeyPathInputData(t *testing.T) {
 		{"ssh_public_key_not_exist", "/non/exist/public/ssh/key", "no such file or directory", false},
 		{"ssh_public_key_exist", os.Getenv("TF_VAR_server_ssh_authorized_keys"), "Creation complete", true},
 	}
-
-	// create dependent resources
-	terraformDependenciesDir := "../dependencies"
-	terraform_dependencies_options := nginx_module_common.ConfigureTerraformOptions(t, terraformDependenciesDir, inputs_config_file_path)
 
 	vcn_ocid, nginx_subnet_ocids_temp, bastion_subnet_ocid, _ := nginx_module_common.TestCreateVCNForNginx(t, terraform_dependencies_options)
 	nginx_subnet_ocids := strings.Split(strings.Replace(nginx_subnet_ocids_temp, "\n", "", -1), ",")
@@ -79,12 +80,12 @@ func iamTestFieldDataInputs(t *testing.T, ssh_public_key string, output_message 
 
 		if terraformOptions.Vars["server_count"].(int) <= 1 {
 			resource_name := "module.nginx.module.nginx_server.oci_core_instance.this"
-			display_name := test_helper.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
+			display_name := terraform_module_test_lib.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
 			nginx_module_common.FindInstanceInInstancesListRestAPI(t, display_name, verify_created, compartment_id)
 		} else {
 			for index := 0; index < terraformOptions.Vars["server_count"].(int); index++ {
 				resource_name := "module.nginx.module.nginx_server.oci_core_instance.this[" + strconv.Itoa(index) + "]"
-				display_name := test_helper.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
+				display_name := terraform_module_test_lib.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
 				nginx_module_common.FindInstanceInInstancesListRestAPI(t, display_name, verify_created, compartment_id)
 			}
 		}

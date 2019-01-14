@@ -10,20 +10,22 @@ import (
 	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/assert"
 	"os"
-	"terraform-module-test-lib"
+	"../terraform-module-test-lib"
 	"testing"
 )
 
 type Inputs struct {
 	Tenancy_ocid                string        `json:"tenancy_ocid"`
-	compartment_id              string        `json:"compartment_id"`
+	Compartment_id              string        `json:"compartment_id"`
 	User_ocid                   string        `json:"user_ocid"`
 	Region                      string        `json:"region"`
 	Fingerprint                 string        `json:"fingerprint"`
 	Private_key_path            string        `json:"private_key_path"`
 	Vcn_ocid                    string        `json:"vcn_ocid"`
-	Bastion_subnet              string        `json:"bastion_subnet"`
-	Bastion_shape               string        `json:"bastion_shape"`
+	Bastion_subnet            	string        `json:"bastion_subnet"`
+	Bastion_shape            	string        `json:"bastion_shape"`
+	Bastion_host_public_ip      string        `json:"bastion_host_public_ip"`
+	Bastion_host_user           string        `json:"bastion_host_user"`
 	Bastion_ssh_authorized_keys string        `json:"bastion_ssh_authorized_keys"`
 	Bastion_ssh_private_key     string        `json:"bastion_ssh_private_key"`
 	Bastion_host_display_name   string        `json:"bastion_host_display_name"`
@@ -46,7 +48,12 @@ type Inputs struct {
 
 func ConfigureTerraformOptions(t *testing.T, terraformDir string, input_file_path string) *terraform.Options {
 	var vars Inputs
-	err := test_helper.GetConfig(input_file_path, &vars)
+	inputsErr := terraform_module_test_lib.GetConfig("../inputs.json", &vars)
+	if inputsErr != nil {
+		logger.Logf(t, inputsErr.Error())
+		t.Fail()
+	}
+	err := terraform_module_test_lib.GetConfig(input_file_path, &vars)
 	if err != nil {
 		logger.Logf(t, err.Error())
 		t.Fail()
@@ -54,15 +61,17 @@ func ConfigureTerraformOptions(t *testing.T, terraformDir string, input_file_pat
 	terraformOptions := &terraform.Options{
 		TerraformDir: terraformDir,
 		Vars: map[string]interface{}{
-			"tenancy_ocid":                os.Getenv("TF_VAR_tenancy_ocid"),
-			"compartment_id":              os.Getenv("TF_VAR_compartment_id"),
-			"user_ocid":                   os.Getenv("TF_VAR_user_ocid"),
-			"region":                      os.Getenv("TF_VAR_region"),
-			"fingerprint":                 os.Getenv("TF_VAR_fingerprint"),
-			"private_key_path":            os.Getenv("TF_VAR_private_key_path"),
+			"tenancy_ocid":                vars.Tenancy_ocid,
+			"compartment_id":              vars.Compartment_id,
+			"user_ocid":                   vars.User_ocid,
+			"region":                      vars.Region,
+			"fingerprint":                 vars.Fingerprint,
+			"private_key_path":            vars.Private_key_path,
 			"vcn_ocid":                    vars.Vcn_ocid,
 			"bastion_subnet":              vars.Bastion_subnet,
 			"bastion_shape":               vars.Bastion_shape,
+			"bastion_host_public_ip":      vars.Bastion_host_public_ip,
+			"bastion_host_user":           vars.Bastion_host_user,
 			"bastion_ssh_authorized_keys": vars.Bastion_ssh_authorized_keys,
 			"bastion_ssh_private_key":     vars.Bastion_ssh_private_key,
 			"bastion_host_display_name":   vars.Bastion_host_display_name,
@@ -73,8 +82,8 @@ func ConfigureTerraformOptions(t *testing.T, terraformDir string, input_file_pat
 			"server_shape":                vars.Server_shape,
 			"server_image_id":             vars.Server_image_id,
 			"server_http_port":            vars.Server_http_port,
-			"server_ssh_authorized_keys":  os.Getenv("TF_VAR_server_ssh_authorized_keys"),
-			"server_ssh_private_key":      os.Getenv("TF_VAR_server_ssh_private_key"),
+			"server_ssh_authorized_keys":  vars.Server_ssh_authorized_keys,
+			"server_ssh_private_key":      vars.Server_ssh_private_key,
 			"lb_subnet_ids":               vars.Lb_subnet_ids,
 			"backend_ips":                 vars.Backend_ips,
 			"backend_count":               vars.Backend_count,
@@ -84,6 +93,16 @@ func ConfigureTerraformOptions(t *testing.T, terraformDir string, input_file_pat
 		},
 		Upgrade: true,
 	}
+
+	// set the TF_VAR for the config provider
+	_ = os.Setenv("TF_VAR_tenancy_ocid", vars.Tenancy_ocid)
+	_ = os.Setenv("TF_VAR_compartment_id", vars.Compartment_id)
+	_ = os.Setenv("TF_VAR_region", vars.Region)
+	_ = os.Setenv("TF_VAR_fingerprint", vars.Fingerprint)
+	_ = os.Setenv("TF_VAR_user_ocid", vars.User_ocid)
+	_ = os.Setenv("TF_VAR_private_key_path", vars.Private_key_path)
+	_ = os.Setenv("TF_VAR_server_ssh_authorized_keys", vars.Server_ssh_authorized_keys)
+
 	return terraformOptions
 }
 

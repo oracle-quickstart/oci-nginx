@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"strconv"
 	"strings"
-	"terraform-module-test-lib"
+	"../terraform-module-test-lib"
 	"testing"
 )
 
@@ -24,7 +24,7 @@ func TestIAMParameterFieldContent(t *testing.T) {
 	}{
 		{"display_name_alphanumeric_chars", "name_with_alphanumeric_1234567890_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "Creation complete", true},
 		{"display_name_allowed_special_symbols", "name_with_allowed_chars_-.+@!#$%^&*()={}+[]/?'<>,~`; :", "Creation complete", true},
-		{"display_name_other_language_symbol", "name_with_other_language_symbol_трындец", "Creation complete", true},
+		{"display_name_other_language_symbol", "name_with_other_language_symbol_测试", "Creation complete", true},
 	}
 
 	// create dependent resources
@@ -76,12 +76,12 @@ func iamTestFieldDataInputs(t *testing.T, display_name string, output_message st
 
 		if terraformOptions.Vars["server_count"].(int) == 1 {
 			resource_name := "module.nginx.module.nginx_server.oci_core_instance.this"
-			display_name := test_helper.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
+			display_name := terraform_module_test_lib.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
 			nginx_module_common.FindInstanceInInstancesListRestAPI(t, display_name, verify_created, compartment_id)
 		} else {
 			for index := 0; index < terraformOptions.Vars["server_count"].(int); index++ {
 				resource_name := "module.nginx.module.nginx_server.oci_core_instance.this[" + strconv.Itoa(index) + "]"
-				display_name := test_helper.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
+				display_name := terraform_module_test_lib.GetResourceProperty(t, terraformOptions, "display_name", "state", "show", resource_name)
 				nginx_module_common.FindInstanceInInstancesListRestAPI(t, display_name, verify_created, compartment_id)
 			}
 		}

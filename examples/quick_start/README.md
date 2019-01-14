@@ -11,7 +11,7 @@ This example shows how to deploy the nginx servers with public Load Balancer on 
 ### Using this example
 Prepare one variable file named "terraform.tfvars" with the required information. The content of "terraform.tfvars" should look something like the following:
 
-```
+```bash
 $ cat terraform.tfvars
 # Oracle Cloud Infrastructure Authentication details
 tenancy_ocid = "ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -22,12 +22,12 @@ region = "us-ashburn-1"
 compartment_id = "ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # Instance Configration
+bastion_ssh_authorized_keys = ""
+bastion_ssh_private_key = ""
 server_ssh_authorized_keys = "~/.ssh/id_rsa.pub"
 server_ssh_private_key = "~/.ssh/id_rsa"
-server_shape="VM.Standard1.1"
 server_count=2
 http_port="80"
-bastion_host_display_name="bastion_host_display_name"
 ssl_cert_file_path=""
 ssl_cert_key_file_path=""
 
@@ -53,7 +53,7 @@ Please also note that the self signed certificate generated in the example is fo
 
 ### Run the example:
 
-```
+```bash
 $ terraform init
 $ terraform plan
 $ terraform apply
@@ -61,6 +61,6 @@ $ terraform apply
 
 ### To delete all resources:
 
-```
+```bash
 $ terraform destroy
 ```

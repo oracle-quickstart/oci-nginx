@@ -13,8 +13,8 @@ compartment_id = "<compartment OCID>"
 
 # Bastion and Nginx server configuration
 vcn_ocid = "<vcn ocid>"
-bastion_subnet = "<bastion subnet ocid>"
-bastion_shape = "<bastion instance shape>"
+bastion_host_public_ip = "<bastion host public IP>"
+bastion_host_user = "<bastion host username>"
 bastion_ssh_authorized_keys = "<path to public ssh key>"
 bastion_ssh_private_key = "<path to the private ssh key>"
 server_count = "<the count of the nginx servers>"
@@ -24,5 +24,5 @@ image_id = "<image ocid>"
 server_http_port = "<the http port for nginx server>"
 server_ssh_private_key = "<path to the private ssh key>"
 server_ssh_authorized_keys = "<path to public ssh key>"
-
-
+ssl_cert_file_path="<the path of ssl cert file, if no keep it empty>"
+ssl_cert_key_file_path="<the path of ssl cert key file, if no keep it empty>"

@@ -1,5 +1,3 @@
-// Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
-
 provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
   user_ocid        = "${var.user_ocid}"
@@ -12,10 +10,10 @@ module "nginx" {
   source                      = "../../"
   compartment_id              = "${var.compartment_id}"
   vcn_ocid                    = "${var.vcn_ocid}"
-  bastion_subnet              = "${var.bastion_subnet}"
-  bastion_shape               = "${var.bastion_shape}"
-  bastion_ssh_authorized_keys = "${var.bastion_ssh_authorized_keys}"
-  bastion_ssh_private_key     = "${var.bastion_ssh_private_key}"
+  bastion_host_public_ip      = "${var.bastion_host_public_ip}"
+  bastion_host_user           = "${var.bastion_host_user}"
+  bastion_ssh_authorized_keys = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
+  bastion_ssh_private_key     = "${coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)}"
   server_count                = "${var.server_count}"
   server_subnet_ids           = "${var.server_subnet_ids}"
   server_display_name         = "${var.server_display_name_prefix}"
@@ -24,7 +22,6 @@ module "nginx" {
   server_http_port            = "${var.http_port}"
   server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
   server_ssh_private_key      = "${var.server_ssh_private_key}"
-  bastion_host_display_name   = "${var.bastion_host_display_name}"
   ssl_cert_file_path          = "${var.ssl_cert_file_path}"
   ssl_cert_key_file_path      = "${var.ssl_cert_key_file_path}"
 }

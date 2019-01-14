@@ -21,20 +21,6 @@ data "template_file" "install_nginx" {
   }
 }
 
-# Create the bastion host
-module "bastion_host" {
-  source                = "./modules/compute-instance"
-  compartment_id        = "${var.compartment_id}"
-  instance_display_name = "${var.bastion_host_display_name}"
-  source_ocid           = "${coalesce(var.bastion_image_id, var.server_image_id)}"
-  vcn_ocid              = "${var.vcn_ocid}"
-  subnet_ocid           = ["${var.bastion_subnet}"]
-  ssh_authorized_keys   = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
-  shape                 = "${coalesce(var.bastion_shape, var.server_shape)}"
-  assign_public_ip      = true
-  instance_count        = 1
-}
-
 # Create the nginx server host(s)
 module "nginx_server" {
   source                = "./modules/compute-instance"
@@ -51,23 +37,23 @@ module "nginx_server" {
 
 # Do the nginx server setup with Bastion Host
 resource "null_resource" "setup_with_bastion" {
-  depends_on = ["module.bastion_host", "module.nginx_server"]
+  depends_on = ["module.nginx_server"]
   count      = "${var.server_count}"
 
   triggers {
-    bastion_public_ip = "${join(",",module.bastion_host.public_ip)}"
+    bastion_public_ip = "${join(",",list(var.bastion_host_public_ip))}"
     server_private_ip = "${element(module.nginx_server.private_ip, count.index)}"
   }
 
   provisioner "file" {
     connection = {
-      bastion_host        = "${element(module.bastion_host.public_ip, 0)}"
-      bastion_host_key    = "${chomp(file(coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)))}"
+      bastion_host        = "${var.bastion_host_public_ip}"
+      bastion_host_key    = "${chomp(file(var.bastion_ssh_authorized_keys))}"
       bastion_port        = 22
-      bastion_user        = "opc"
-      bastion_private_key = "${chomp(file(coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)))}"
+      bastion_user        = "${var.bastion_host_user}"
+      bastion_private_key = "${chomp(file(var.bastion_ssh_private_key))}"
       host                = "${element(module.nginx_server.private_ip, count.index)}"
-      agent               = false
+      agent               = true
       timeout             = "10m"
       user                = "opc"
       private_key         = "${chomp(file(var.server_ssh_private_key))}"
@@ -80,13 +66,13 @@ resource "null_resource" "setup_with_bastion" {
 
   provisioner "file" {
     connection = {
-      bastion_host        = "${element(module.bastion_host.public_ip, 0)}"
-      bastion_host_key    = "${chomp(file(coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)))}"
+      bastion_host        = "${var.bastion_host_public_ip}"
+      bastion_host_key    = "${chomp(file(var.bastion_ssh_authorized_keys))}"
       bastion_port        = 22
-      bastion_user        = "opc"
-      bastion_private_key = "${chomp(file(coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)))}"
+      bastion_user        = "${var.bastion_host_user}"
+      bastion_private_key = "${chomp(file(var.bastion_ssh_private_key))}"
       host                = "${element(module.nginx_server.private_ip, count.index)}"
-      agent               = false
+      agent               = true
       timeout             = "10m"
       user                = "opc"
       private_key         = "${chomp(file(var.server_ssh_private_key))}"
@@ -99,13 +85,13 @@ resource "null_resource" "setup_with_bastion" {
 
   provisioner "remote-exec" {
     connection = {
-      bastion_host        = "${element(module.bastion_host.public_ip, 0)}"
-      bastion_host_key    = "${chomp(file(coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)))}"
+      bastion_host        = "${var.bastion_host_public_ip}"
+      bastion_host_key    = "${chomp(file(var.bastion_ssh_authorized_keys))}"
       bastion_port        = 22
-      bastion_user        = "opc"
-      bastion_private_key = "${chomp(file(coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)))}"
+      bastion_user        = "${var.bastion_host_user}"
+      bastion_private_key = "${chomp(file(var.bastion_ssh_private_key))}"
       host                = "${element(module.nginx_server.private_ip, count.index)}"
-      agent               = false
+      agent               = true
       timeout             = "10m"
       user                = "opc"
       private_key         = "${chomp(file(var.server_ssh_private_key))}"
@@ -122,13 +108,13 @@ resource "null_resource" "setup_with_bastion" {
 
   provisioner "file" {
     connection = {
-      bastion_host        = "${element(module.bastion_host.public_ip, 0)}"
-      bastion_host_key    = "${chomp(file(coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)))}"
+      bastion_host        = "${var.bastion_host_public_ip}"
+      bastion_host_key    = "${chomp(file(var.bastion_ssh_authorized_keys))}"
       bastion_port        = 22
-      bastion_user        = "opc"
-      bastion_private_key = "${chomp(file(coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)))}"
+      bastion_user        = "${var.bastion_host_user}"
+      bastion_private_key = "${chomp(file(var.bastion_ssh_private_key))}"
       host                = "${element(module.nginx_server.private_ip, count.index)}"
-      agent               = false
+      agent               = true
       timeout             = "10m"
       user                = "opc"
       private_key         = "${chomp(file(var.server_ssh_private_key))}"
@@ -140,13 +126,13 @@ resource "null_resource" "setup_with_bastion" {
 
   provisioner "remote-exec" {
     connection = {
-      bastion_host        = "${element(module.bastion_host.public_ip, 0)}"
-      bastion_host_key    = "${chomp(file(coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)))}"
+      bastion_host        = "${var.bastion_host_public_ip}"
+      bastion_host_key    = "${chomp(file(var.bastion_ssh_authorized_keys))}"
       bastion_port        = 22
-      bastion_user        = "opc"
-      bastion_private_key = "${chomp(file(coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)))}"
+      bastion_user        = "${var.bastion_host_user}"
+      bastion_private_key = "${chomp(file(var.bastion_ssh_private_key))}"
       host                = "${element(module.nginx_server.private_ip, count.index)}"
-      agent               = false
+      agent               = true
       timeout             = "10m"
       user                = "opc"
       private_key         = "${chomp(file(var.server_ssh_private_key))}"
