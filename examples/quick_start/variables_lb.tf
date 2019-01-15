@@ -6,6 +6,7 @@ variable "compartment_id" {
 
 variable "display_name" {
   description = "The display name of the load balancer."
+  default     = "LBForNginx"
 }
 
 variable "shape" {
@@ -16,6 +17,7 @@ variable "shape" {
 variable "subnet_ids" {
   description = "The list of subnet ids to host the load balancer."
   type        = "list"
+  default     = [""]
 }
 
 variable "is_private" {
@@ -25,18 +27,22 @@ variable "is_private" {
 
 variable "backendset_name" {
   description = "The name of the backendset."
+  default     = "nginx_backend_set"
 }
 
 variable "backendset_policy" {
   description = "The load balancer policy for the backend set."
+  default     = "LEAST_CONNECTIONS"
 }
 
 variable "hc_protocol" {
   description = "The health checker protocol."
+  default     = "HTTP"
 }
 
 variable "hc_port" {
   description = "The backend server port against which to run the health check."
+  default = ""
 }
 
 variable "hc_interval_ms" {
@@ -66,21 +72,24 @@ variable "hc_response_body_regex" {
 
 variable "hc_url_path" {
   description = "A URL endpoint against which to run the health check."
-  default     = ""
+  default     = "/"
 }
 
 variable "backend_count" {
   description = "The number of the backend servers."
+  default = ""
 }
 
 variable "backend_ips" {
   description = "The IP addresses of the backend servers."
   type        = "list"
+  default     = [""]
 }
 
 variable "backend_ports" {
   description = "The communication port for the backend server."
   type        = "list"
+  default     = [""]
 }
 
 variable "backup" {
@@ -120,12 +129,14 @@ variable "path_match_type" {
 
 variable "hostnames" {
   description = "A list of virtual hostnames."
-  default     = []
+  type        = "list"
+  default     = ["hostnema1", "hostname2"]
 }
 
 variable "hostname_names" {
   description = "A list of friendly name for the hostname resources."
-  default     = []
+  type        = "list"
+  default     = ["nonhostnema1", "nonhostname2"]
 }
 
 variable "listener_certificate_name" {
@@ -155,6 +166,7 @@ variable "listener_public_certificate" {
 
 variable "listener_protocol" {
   description = "The protocol on which the listener accepts connection requests, either HTTP or TCP."
+  default     = "HTTP"
 }
 
 variable "ssl_listener_name" {
@@ -189,7 +201,7 @@ variable "ssl_listener_path_route_set" {
 
 variable "non_ssl_listener_name" {
   description = "The name of the listener without ssl enabled."
-  default     = ""
+  default     = "nonssllistener"
 }
 
 variable "non_ssl_listener_port" {

@@ -6,9 +6,13 @@ variable "region" {}
 variable "server_ssh_authorized_keys" {}
 variable "server_ssh_private_key" {}
 
-variable "bastion_ssh_authorized_keys" {}
+variable "bastion_ssh_authorized_keys" {
+  default = ""
+}
 
-variable "bastion_ssh_private_key" {}
+variable "bastion_ssh_private_key" {
+  default = ""
+}
 
 variable "image_id" {
   type = "map"
@@ -67,14 +71,17 @@ variable "bastion_host_user" {
 
 variable "ssl_cert_file_path" {
   description = "The path of the ssl cert file"
+  default = ""
 }
 
 variable "ssl_cert_key_file_path" {
   description = "The path of the ssl cert private key file"
+  default = ""
 }
 
 variable "server_https_port" {
   description = "The https port for the nginx server"
+  default = ""
 }
 
 variable "folder_path_for_ssl_cert_files" {

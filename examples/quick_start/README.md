@@ -22,31 +22,11 @@ region = "us-ashburn-1"
 compartment_id = "ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # Instance Configration
-bastion_ssh_authorized_keys = ""
-bastion_ssh_private_key = ""
 server_ssh_authorized_keys = "~/.ssh/id_rsa.pub"
 server_ssh_private_key = "~/.ssh/id_rsa"
 server_count=2
 http_port="80"
-ssl_cert_file_path=""
-ssl_cert_key_file_path=""
 
-## variables for load balance
-backend_count=2
-backend_ips=[""]
-backend_ports=["80"]
-display_name="The display name of the load balancer"
-hc_port=80
-listener_protocol="HTTP"
-subnet_ids=[""]
-hc_url_path="/"
-backendset_name="nginx_backend_set"
-hc_protocol="HTTP"
-backendset_policy="LEAST_CONNECTIONS"
-hostnames=["hostnema1","hostname2"]
-non_ssl_listener_name="nonssllistener"
-non_ssl_listener_port="80"
-hostname_names=["nonhostnema1","nonhostname2"]
 ```
 
 Please also note that the self signed certificate generated in the example is for demo purposes only.
