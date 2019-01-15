@@ -1,10 +1,10 @@
 {
-  "tenancy_ocid": "ocid1.tenancy.oc1..aaaaaaaaayvewtxgja6bm5ct3h3rkakxbufyfj57irm6vrwu4djav2odxesq",
-  "compartment_id": "ocid1.tenancy.oc1..aaaaaaaaayvewtxgja6bm5ct3h3rkakxbufyfj57irm6vrwu4djav2odxesq",
-  "user_ocid": "ocid1.user.oc1..aaaaaaaa67q2e7gezxebsxxzk4m3k3fkjyjwohdomrgq7mdluopjxfsq6pdq",
-  "fingerprint": "8b:81:7d:42:07:d8:c4:3b:86:ef:25:9d:96:61:3c:0b",
-  "private_key_path": "/Users/kunyuanma/.oci/oci_api_key.pem",
-  "server_ssh_authorized_keys": "/Users/kunyuanma/Downloads/id_rsa.pub",
-  "server_ssh_private_key": "/Users/kunyuanma/Downloads/id_rsa_testdata",
+  "tenancy_ocid": "ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "compartment_id": "ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "user_ocid": "ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "fingerprint": "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx",
+  "private_key_path": "~/.oci/oci_api_key.pem",
+  "server_ssh_authorized_keys": "~/.ssh/id_rsa.pub",
+  "server_ssh_private_key": "~/.ssh/id_rsa",
   "region": "us-phoenix-1"
 }
