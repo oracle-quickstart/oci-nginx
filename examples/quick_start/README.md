@@ -26,7 +26,6 @@ server_ssh_authorized_keys = "~/.ssh/id_rsa.pub"
 server_ssh_private_key = "~/.ssh/id_rsa"
 server_count=2
 http_port="80"
-
 ```
 
 Please also note that the self signed certificate generated in the example is for demo purposes only.
