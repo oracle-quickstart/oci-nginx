@@ -36,6 +36,7 @@ type Inputs struct {
 	Server_shape                string        `json:"server_shape"`
 	Server_image_id             string        `json:"server_image_id"`
 	Server_http_port            string        `json:"server_http_port"`
+	Server_https_port           string        `json:"server_https_port"`
 	Server_ssh_authorized_keys  string        `json:"server_ssh_authorized_keys"`
 	Server_ssh_private_key      string        `json:"server_ssh_private_key"`
 	Lb_subnet_ids               string        `json:"lb_subnet_ids"`
@@ -82,6 +83,7 @@ func ConfigureTerraformOptions(t *testing.T, terraformDir string, input_file_pat
 			"server_shape":                vars.Server_shape,
 			"server_image_id":             vars.Server_image_id,
 			"server_http_port":            vars.Server_http_port,
+			"server_https_port":           vars.Server_https_port,
 			"server_ssh_authorized_keys":  vars.Server_ssh_authorized_keys,
 			"server_ssh_private_key":      vars.Server_ssh_private_key,
 			"lb_subnet_ids":               vars.Lb_subnet_ids,

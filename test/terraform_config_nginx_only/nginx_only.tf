@@ -23,6 +23,7 @@ variable "server_display_name" {}
 variable "server_shape" {}
 variable "server_image_id" {}
 variable "server_http_port" {}
+variable "server_https_port" {}
 variable "server_ssh_authorized_keys" {}
 variable "server_ssh_private_key" {}
 variable "ssl_cert_file_path" {
@@ -68,6 +69,7 @@ module "nginx" {
   server_shape                = "${var.server_shape}"
   server_image_id             = "${var.server_image_id}"
   server_http_port            = "${var.server_http_port}"
+  server_https_port           = "${var.server_https_port}"
   server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
   server_ssh_private_key      = "${var.server_ssh_private_key}"
   ssl_cert_file_path          = "${var.ssl_cert_file_path}"
