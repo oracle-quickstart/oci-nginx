@@ -1,5 +1,3 @@
-// Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
-
 output "server_ids" {
   value = "${module.nginx_server.instance_id}"
 }

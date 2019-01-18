@@ -1,4 +1,3 @@
-// Copyright (c) 2018, Oracle and/or its affiliatesAll rights reserved.
 variable "ssl_cert_file_path" {
   description = "The path of the ssl cert file"
 }

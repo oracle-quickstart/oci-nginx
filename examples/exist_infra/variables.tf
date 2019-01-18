@@ -34,6 +34,11 @@ variable "http_port" {
   default     = 80
 }
 
+variable "server_https_port" {
+  description = "The nginx server https port"
+  default     = 443
+}
+
 variable "bastion_host_user" {
   description = "The user name of bastion host"
   default     = "opc"

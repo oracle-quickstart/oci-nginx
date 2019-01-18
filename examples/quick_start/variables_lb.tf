@@ -1,9 +1,3 @@
-// Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
-
-variable "compartment_id" {
-  description = "The OCID of the Compartment to create the load balancer in."
-}
-
 variable "display_name" {
   description = "The display name of the load balancer."
   default     = "LBForNginx"

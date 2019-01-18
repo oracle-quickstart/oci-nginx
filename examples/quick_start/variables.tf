@@ -2,6 +2,7 @@ variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
+variable "compartment_id" {}
 variable "region" {}
 variable "server_ssh_authorized_keys" {}
 variable "server_ssh_private_key" {}

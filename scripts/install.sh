@@ -1,5 +1,4 @@
 #!/bin/bash
-# Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
 set -e -x
 
 # Install NGINX (nginx-1.12.2-2.el7.x86_64)

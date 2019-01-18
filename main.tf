@@ -1,5 +1,3 @@
-// Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
-
 ## DATASOURCE
 locals {
   ssl_cert_filename      = "${basename(coalesce(var.ssl_cert_file_path, "/non_exsit_cert_file"))}"

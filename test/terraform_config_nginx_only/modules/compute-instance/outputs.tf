@@ -1,5 +1,3 @@
-// Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
-
 output "instance_id" {
   description = "ocid of created instances. "
   value       = ["${oci_core_instance.this.*.id}"]

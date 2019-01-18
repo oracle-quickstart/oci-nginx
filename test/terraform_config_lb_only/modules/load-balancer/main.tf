@@ -1,5 +1,3 @@
-// Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
-
 resource "oci_load_balancer" "this" {
   compartment_id = "${var.compartment_id}"
   display_name   = "${var.display_name}"

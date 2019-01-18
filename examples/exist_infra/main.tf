@@ -20,6 +20,7 @@ module "nginx" {
   server_shape                = "${var.server_shape}"
   server_image_id             = "${var.image_id}"
   server_http_port            = "${var.http_port}"
+  server_https_port           = "${var.server_https_port}"
   server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
   server_ssh_private_key      = "${var.server_ssh_private_key}"
   ssl_cert_file_path          = "${var.ssl_cert_file_path}"
