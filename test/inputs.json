@@ -1,0 +1,10 @@
+{
+  "tenancy_ocid": "ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "compartment_id": "ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "user_ocid": "ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "fingerprint": "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx",
+  "private_key_path": "~/.oci/oci_api_key.pem",
+  "server_ssh_authorized_keys": "~/.ssh/id_rsa.pub",
+  "server_ssh_private_key": "~/.ssh/id_rsa",
+  "region": "us-phoenix-1"
+}
