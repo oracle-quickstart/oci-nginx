@@ -10,7 +10,7 @@ import (
 	"github.com/oracle/oci-go-sdk/core"
 	"github.com/stretchr/testify/assert"
 	"os"
-	"../terraform-module-test-lib"
+	"terraform-oci-nginx/test/terraform-module-test-lib"
 	"testing"
 )
 

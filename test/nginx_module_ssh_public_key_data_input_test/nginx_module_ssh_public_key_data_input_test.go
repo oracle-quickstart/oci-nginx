@@ -1,8 +1,8 @@
 package test
 
 import (
-	"../nginx_module_common"
-	"../terraform-module-test-lib"
+	"terraform-oci-nginx/test/nginx_module_common"
+	"terraform-oci-nginx/test/terraform-module-test-lib"
 	"fmt"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/terraform"
