@@ -17,3 +17,19 @@ output "load_balance_endpoint" {
 output "server_http_port" {
   value = "${module.nginx.server_http_port}"
 }
+
+output "ssh_authorized_keys" {
+  value = "${path.module}/${local_file.ssh_public_key.filename}"
+}
+
+output "ssh_private_key" {
+  value = "${path.module}/${local_file.ssh_private_key.filename}"
+}
+
+output "bastion_private_key" {
+  value = "${path.module}/${local_file.ssh_private_key.filename}"
+}
+
+output "bastion_authorized_keys" {
+  value = "${path.module}/${local_file.ssh_public_key.filename}"
+}

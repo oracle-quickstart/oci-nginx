@@ -69,7 +69,7 @@ variable "subnet_ocid" {
 }
 
 variable "ssh_authorized_keys" {
-  description = "Public SSH keys path to be included in the ~/.ssh/authorized_keys file for the default user on the instance. "
+  description = "Public SSH keys content to be included in the ~/.ssh/authorized_keys file for the default user on the instance. "
   default     = ""
 }
 

@@ -154,6 +154,23 @@ resource "oci_core_subnet" "load_balance" {
   route_table_id      = "${oci_core_route_table.routeTable_nginx_IGW.id}"
 }
 
+# use terraform tls_private_key to build keys
+resource "tls_private_key" "server_ssh_key" {
+  algorithm = "RSA"
+}
+
+resource "local_file" "ssh_public_key" {
+  content    = "${tls_private_key.server_ssh_key.public_key_openssh}"
+  filename   = "id_rsa_auto.pub"
+  depends_on = ["tls_private_key.server_ssh_key"]
+}
+
+resource "local_file" "ssh_private_key" {
+  content    = "${tls_private_key.server_ssh_key.private_key_pem}"
+  filename   = "id_rsa_auto"
+  depends_on = ["tls_private_key.server_ssh_key"]
+}
+
 # Create the bastion host
 module "bastion_host" {
   source                = "./modules/compute-instance"
@@ -162,7 +179,7 @@ module "bastion_host" {
   source_ocid           = "${coalesce(var.bastion_image_id, var.image_id[var.region])}"
   vcn_ocid              = "${oci_core_vcn.nginx.id}"
   subnet_ocid           = "${list(element(oci_core_subnet.bastion.*.id, 0))}"
-  ssh_authorized_keys   = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
+  ssh_authorized_keys   = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys, tls_private_key.server_ssh_key.public_key_openssh)}"
   shape                 = "${coalesce(var.bastion_shape, var.server_shape)}"
   assign_public_ip      = true
   instance_count        = 1
@@ -174,8 +191,8 @@ module "nginx" {
   vcn_ocid                    = "${oci_core_vcn.nginx.id}"
   bastion_host_public_ip      = "${element(module.bastion_host.public_ip, 0)}"
   bastion_host_user           = "${var.bastion_host_user}"
-  bastion_ssh_authorized_keys = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
-  bastion_ssh_private_key     = "${coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)}"
+  bastion_ssh_authorized_keys = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys, tls_private_key.server_ssh_key.public_key_openssh)}"
+  bastion_ssh_private_key     = "${coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key, tls_private_key.server_ssh_key.private_key_pem)}"
   server_count                = "${var.server_count}"
   server_subnet_ids           = ["${oci_core_subnet.nginx.*.id}"]
   server_display_name         = "${var.server_display_name}"
@@ -183,8 +200,8 @@ module "nginx" {
   server_image_id             = "${var.image_id[var.region]}"
   server_http_port            = "${var.http_port}"
   server_https_port           = "${var.server_https_port}"
-  server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
-  server_ssh_private_key      = "${var.server_ssh_private_key}"
+  server_ssh_authorized_keys  = "${coalesce(var.server_ssh_authorized_keys, tls_private_key.server_ssh_key.public_key_openssh)}"
+  server_ssh_private_key      = "${coalesce(var.server_ssh_private_key, tls_private_key.server_ssh_key.private_key_pem)}"
   ssl_cert_file_path          = "${var.ssl_cert_file_path}"
   ssl_cert_key_file_path      = "${var.ssl_cert_key_file_path}"
 }
