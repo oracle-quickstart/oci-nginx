@@ -1,7 +1,7 @@
 package test
 
 import (
-	"../nginx_module_common"
+	"terraform-oci-nginx/test/nginx_module_common"
 	"fmt"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"../terraform-module-test-lib"
+	"terraform-oci-nginx/test/terraform-module-test-lib"
 	"testing"
 	"time"
 	"io/ioutil"

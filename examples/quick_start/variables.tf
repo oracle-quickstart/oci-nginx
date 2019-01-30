@@ -4,8 +4,12 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_id" {}
 variable "region" {}
-variable "server_ssh_authorized_keys" {}
-variable "server_ssh_private_key" {}
+variable "server_ssh_authorized_keys" {
+  default = ""
+}
+variable "server_ssh_private_key" {
+  default = ""
+}
 
 variable "bastion_ssh_authorized_keys" {
   default = ""

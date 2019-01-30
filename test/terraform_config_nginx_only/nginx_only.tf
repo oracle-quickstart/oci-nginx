@@ -49,7 +49,7 @@ module "bastion_host" {
   source_ocid           = "${coalesce(var.bastion_image_id, var.server_image_id)}"
   vcn_ocid              = "${var.vcn_ocid}"
   subnet_ocid           = "${list(var.bastion_subnet)}"
-  ssh_authorized_keys   = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
+  ssh_authorized_keys   = "${file(coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys))}"
   shape                 = "${coalesce(var.bastion_shape, var.server_shape)}"
   assign_public_ip      = true
   instance_count        = 1
@@ -61,8 +61,8 @@ module "nginx" {
   vcn_ocid                    = "${var.vcn_ocid}"
   bastion_host_public_ip      = "${element(module.bastion_host.public_ip, 0)}"
   bastion_host_user           = "${var.bastion_host_user}"
-  bastion_ssh_authorized_keys = "${coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys)}"
-  bastion_ssh_private_key     = "${coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key)}"
+  bastion_ssh_authorized_keys = "${file(coalesce(var.bastion_ssh_authorized_keys, var.server_ssh_authorized_keys))}"
+  bastion_ssh_private_key     = "${file(coalesce(var.bastion_ssh_private_key, var.server_ssh_private_key))}"
   server_count                = "${var.server_count}"
   server_subnet_ids           = "${var.server_subnet_ids}"
   server_display_name         = "${var.server_display_name}"
@@ -70,8 +70,8 @@ module "nginx" {
   server_image_id             = "${var.server_image_id}"
   server_http_port            = "${var.server_http_port}"
   server_https_port           = "${var.server_https_port}"
-  server_ssh_authorized_keys  = "${var.server_ssh_authorized_keys}"
-  server_ssh_private_key      = "${var.server_ssh_private_key}"
+  server_ssh_authorized_keys  = "${file(var.server_ssh_authorized_keys)}"
+  server_ssh_private_key      = "${file(var.server_ssh_private_key)}"
   ssl_cert_file_path          = "${var.ssl_cert_file_path}"
   ssl_cert_key_file_path      = "${var.ssl_cert_key_file_path}"
 }

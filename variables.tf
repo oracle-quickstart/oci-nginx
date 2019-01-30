@@ -37,15 +37,15 @@ variable "bastion_host_user" {
 }
 
 variable "bastion_ssh_authorized_keys" {
-  description = "Public SSH keys path to be included in the ~/.ssh/authorized_keys file for the default user on the bastion instance"
+  description = "Public SSH keys content to be included in the ~/.ssh/authorized_keys file for the default user on the bastion instance"
 }
 
 variable "bastion_ssh_private_key" {
-  description = "The private key path to access bastion instance"
+  description = "The private key content to access bastion instance"
 }
 
 variable "server_ssh_authorized_keys" {
-  description = "Public SSH keys path to be included in the ~/.ssh/authorized_keys file for the default user on the nginx server(s) instance"
+  description = "Public SSH keys content to be included in the ~/.ssh/authorized_keys file for the default user on the nginx server(s) instance"
 }
 
 variable "server_display_name" {
@@ -77,5 +77,5 @@ variable "server_shape" {
 }
 
 variable "server_ssh_private_key" {
-  description = "The private key path to access nginx server(s) instance"
+  description = "The private key content to access nginx server(s) instance"
 }
