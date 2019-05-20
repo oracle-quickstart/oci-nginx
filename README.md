@@ -1,17 +1,14 @@
-**Note:** This module is currently available for internal-Oracle consumption as part of a Limited Availability release. See [Oracle Cloud Infrastructure Terraform Modules](https://confluence.oraclecorp.com/confluence/display/BMCS/OCI+Terraform+Modules) for information about how to use this module and how to give feedback.
+# oci-quickstart-nginx
+These are Terraform modules that deploy [Nginx](https://www.nginx.com/) on [Oracle Cloud Infrastructure (OCI)](https://cloud.oracle.com/en_US/cloud-infrastructure).
 
-# Oracle Cloud Infrastructure Nginx Terraform Module
-
+## About
 The Oracle Cloud Infrastructure Nginx Terraform Module provides an easy way set up Nginx server(s) on Oracle Cloud Infrastructure with or without Oracle Cloud Infrastructure Local Balancer with multiple backends, health checks, listeners, and other features, using sensible defaults and a simplified interface. For information about Oracle Cloud Infrastructure Local Balancer, see [Overview of Load Balancing](https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 
-
 ## Prerequisites
-
 1. [Download and install Terraform](https://www.terraform.io/downloads.html) (v0.11.8 or later)
 2. [Download and install the Oracle Cloud Infrastructure Terraform Provider](https://github.com/oracle/terraform-provider-oci) (v3.5.0 or later)
 
 ## How to Use the Module
-
 The following example
 
 ```hcl
@@ -62,14 +59,3 @@ server_https_port | The https port for the nginx server
 folder_path_for_ssl_cert_files | The folder path on nginx server which for saving the ssl cert files
 ssl_cert_file_path | The path of the ssl cert file
 ssl_cert_key_file_path | The path of the ssl cert private key file
-
-## Contributing
-
-This project is open source. Oracle appreciates any contributions that are made by the open source community.
-
-## License
-
-This SDK and sample is dual licensed under the Universal Permissive License 1.0 and the Apache License 2.0.
-Licensed under the Universal Permissive License 1.0 or Apache License 2.0.
-
-See [LICENSE](LICENSE.txt) for more details.
